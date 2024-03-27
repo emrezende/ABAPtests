@@ -1,0 +1,24 @@
+*&---------------------------------------------------------------------*
+*& Report Z_SALES_PERCENT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT Z_SALES_PERCENT.
+
+DATA: lv_current_year TYPE i,
+      lv_previous_year TYPE i,
+      lv_percent_diff TYPE p DECIMALS 2.
+
+PARAMETERS: p_curr TYPE i,
+            p_prev TYPE i.
+
+START-OF-SELECTION.
+  lv_current_year = p_curr.
+  lv_previous_year = p_prev.
+
+IF lv_previous_year <> 0.
+  lv_percent_diff = ( ( lv_current_year - lv_previous_year ) / lv_previous_year ) * 100.
+  WRITE: 'Percentage Difference:', lv_percent_diff, '%'.
+ELSE.
+  WRITE: 'Impossible to calculate percentage difference as previous year had 0 in sales!'.
+ENDIF.
