@@ -1,0 +1,20 @@
+*&---------------------------------------------------------------------*
+*& Report Z_PALINDROME
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT Z_PALINDROME.
+
+DATA lv_string TYPE string.
+
+PARAMETERS p_string TYPE string.
+
+START-OF-SELECTION.
+
+lv_string = p_string.
+
+IF lv_string = reverse( lv_string ).
+    WRITE: 'The input:', lv_string , 'is a palindrome.'.
+ELSE.
+    WRITE: 'The input:', lv_string , 'is not a palindrome.'.
+ENDIF.
