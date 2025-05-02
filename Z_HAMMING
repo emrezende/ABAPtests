@@ -1,0 +1,32 @@
+*&---------------------------------------------------------------------*
+*& Report Z_HAMMING
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT Z_HAMMING.
+
+DATA: strand1 TYPE string,
+      strand2 TYPE string,
+      distance TYPE i VALUE 0,
+      i TYPE i.
+
+PARAMETERS: p_strand1 TYPE string,
+            p_strand2 TYPE string.
+
+START-OF-SELECTION.
+
+  strand1 = p_strand1.
+  strand2 = p_strand2.
+
+  IF STRLEN( strand1 ) NE STRLEN( strand2 ).
+    WRITE: 'Error: DNA strands must be of equal length!'.
+    EXIT.
+  ENDIF.
+
+  DO STRLEN( strand1 ) TIMES VARYING i FROM 1 NEXT i + 1.
+    IF strand1+i(1) NE strand2+i(1).
+      distance = distance + 1.
+    ENDIF.
+  ENDDO.
+
+  WRITE: 'Hamming distance:', distance. 
