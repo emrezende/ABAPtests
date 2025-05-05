@@ -1,24 +1,37 @@
-*&---------------------------------------------------------------------*
-*& Report Z_SALES_PERCENT
-*&---------------------------------------------------------------------*
-*&
-*&---------------------------------------------------------------------*
-REPORT Z_SALES_PERCENT.
+REPORT z_sales_percent.
 
-DATA: lv_current_year TYPE i,
-      lv_previous_year TYPE i,
+DATA: lv_current_year TYPE p DECIMALS 2,
+      lv_previous_year TYPE p DECIMALS 2,
       lv_percent_diff TYPE p DECIMALS 2.
 
-PARAMETERS: p_curr TYPE i,
-            p_prev TYPE i.
+PARAMETERS: p_curr TYPE string,  " Changed type to STRING for input validation
+            p_prev TYPE string.
 
 START-OF-SELECTION.
+
+* Validate user input: Ensure only numeric values are entered
+IF p_curr CO '0123456789.' AND p_prev CO '0123456789.'.
   lv_current_year = p_curr.
   lv_previous_year = p_prev.
-
-IF lv_previous_year <> 0.
-  lv_percent_diff = ( ( lv_current_year - lv_previous_year ) / lv_previous_year ) * 100.
-  WRITE: 'Percentage Difference:', lv_percent_diff, '%'.
 ELSE.
-  WRITE: 'Impossible to calculate percentage difference as previous year had 0 in sales!'.
+  WRITE: 'Error: Please enter valid numeric sales figures!'.
+  RETURN.
 ENDIF.
+
+* Validate that input is non-negative
+IF lv_current_year < 0 OR lv_previous_year < 0.
+  WRITE: 'Error: Sales figures cannot be negative!'.
+  RETURN.
+ENDIF.
+
+TRY.
+  IF lv_previous_year > 0.
+    lv_percent_diff = ( ( lv_current_year - lv_previous_year ) / lv_previous_year ) * 100.
+    WRITE: 'Percentage Difference:', lv_percent_diff, '%'.
+  ELSE.
+    WRITE: 'Error: Cannot calculate percentage difference as previous year had 0 in sales!'.
+  ENDIF.
+
+CATCH cx_sy_arithmetic_error.
+  WRITE: 'Error: Arithmetic calculation issue occurred!'.
+ENDTRY.
