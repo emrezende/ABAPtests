@@ -1,3 +1,5 @@
+* retrieves product details including product ID, name, and price from a table called zproduct_table
+
 @AbapCatalog.sqlViewName: 'ZCDS_PRODUCT'
 @AccessControl.authorizationCheck: #CHECK
 @EndUserText.label: 'Product Details CDS View'
