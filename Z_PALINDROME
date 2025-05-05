@@ -1,11 +1,9 @@
-*&---------------------------------------------------------------------*
-*& Report Z_PALINDROME
-*&---------------------------------------------------------------------*
-*&
-*&---------------------------------------------------------------------*
-REPORT Z_PALINDROME.
+REPORT z_palindrome.
 
-DATA lv_string TYPE string.
+DATA: lv_string TYPE string,
+      lv_clean_string TYPE string,
+      lv_char TYPE char1,
+      lv_index TYPE i.
 
 PARAMETERS p_string TYPE string.
 
@@ -13,8 +11,21 @@ START-OF-SELECTION.
 
 lv_string = p_string.
 
-IF lv_string = reverse( lv_string ).
-    WRITE: 'The input:', lv_string , 'is a palindrome.'.
+* Loop through each character to keep only letters (A-Z, a-z)
+DO STRLEN( lv_string ) TIMES.
+  lv_char = lv_string+lv_index(1).
+  IF lv_char CO 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.
+    CONCATENATE lv_clean_string lv_char INTO lv_clean_string.
+  ENDIF.
+  lv_index = lv_index + 1.
+ENDDO.
+
+* Convert to uppercase for case-insensitive comparison
+lv_clean_string = to_upper( lv_clean_string ).
+
+* Check if the cleaned string is a palindrome
+IF lv_clean_string = reverse( lv_clean_string ).
+    WRITE: 'The input:', p_string, 'is a palindrome (letters only, case-insensitive).'.
 ELSE.
-    WRITE: 'The input:', lv_string , 'is not a palindrome.'.
+    WRITE: 'The input:', p_string, 'is not a palindrome (letters only, case-insensitive).'.
 ENDIF.
