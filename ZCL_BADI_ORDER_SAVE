@@ -1,0 +1,8 @@
+CLASS zcl_badi_order_save IMPLEMENTATION.
+  METHOD if_ex_badi_order_save~change_before_save.
+    LOOP AT ct_order_items INTO DATA(ls_order_item).
+      ls_order_item-discount = ls_order_item-price * 0.95. "Apply 5% discount
+      MODIFY ct_order_items FROM ls_order_item.
+    ENDLOOP.
+  ENDMETHOD.
+ENDCLASS.
