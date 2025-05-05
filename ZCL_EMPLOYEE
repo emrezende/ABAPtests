@@ -1,0 +1,22 @@
+* Defines a simple method for retrieving employee details. The class should include:
+* - A private attribute to store the employee ID
+* - A method that sets the employee ID
+* - A method that retrieves employee details (e.g., name and department)
+
+CLASS zcl_employee DEFINITION.
+  PUBLIC SECTION.
+    METHODS set_employee_id IMPORTING iv_emp_id TYPE char10.
+    METHODS get_employee_details RETURNING VALUE(rv_details) TYPE string.
+  PRIVATE SECTION.
+    DATA gv_emp_id TYPE char10.
+ENDCLASS.
+
+CLASS zcl_employee IMPLEMENTATION.
+  METHOD set_employee_id.
+    gv_emp_id = iv_emp_id.
+  ENDMETHOD.
+
+  METHOD get_employee_details.
+    rv_details = |Employee ID: { gv_emp_id }, Name: John Doe, Department: IT|.
+  ENDMETHOD.
+ENDCLASS.
