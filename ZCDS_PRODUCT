@@ -1,0 +1,10 @@
+@AbapCatalog.sqlViewName: 'ZCDS_PRODUCT'
+@AccessControl.authorizationCheck: #CHECK
+@EndUserText.label: 'Product Details CDS View'
+DEFINE VIEW zcds_product AS SELECT FROM zproduct_table
+{
+  key product_id,
+      product_name,
+      price
+}
+WHERE price > 100; "Example filter for optimization
