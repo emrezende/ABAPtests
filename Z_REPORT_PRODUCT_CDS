@@ -1,0 +1,30 @@
+REPORT z_report_product_cds.
+
+DATA: lt_products TYPE TABLE OF zcds_product,
+      ls_product TYPE zcds_product.
+
+SELECT-OPTIONS: s_price FOR ls_product-price.
+
+START-OF-SELECTION.
+
+TRY.
+    " Fetch data from CDS view ZCDS_PRODUCT
+    SELECT * FROM zcds_product
+      INTO TABLE lt_products
+      WHERE price IN s_price.
+
+    " Check if data exists
+    IF lt_products IS NOT INITIAL.
+      WRITE: / 'Product ID', 'Product Name', 'Price'.
+      ULINE.
+
+      LOOP AT lt_products INTO ls_product.
+        WRITE: / ls_product-product_id, ls_product-product_name, ls_product-price.
+      ENDLOOP.
+    ELSE.
+      WRITE: 'No products found matching the criteria.'.
+    ENDIF.
+
+  CATCH cx_sy_open_sql_db.
+    WRITE: 'Error: Unable to fetch data from CDS view.'.
+ENDTRY.
