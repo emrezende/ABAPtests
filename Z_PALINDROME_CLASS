@@ -1,0 +1,19 @@
+REPORT Z_PALINDROME_CLASS.
+
+DATA: lv_string TYPE string,
+      lo_palindrome TYPE REF TO zcl_palindrome,
+      lv_result TYPE abap_bool.
+
+PARAMETERS p_string TYPE string.
+
+START-OF-SELECTION.
+
+CREATE OBJECT lo_palindrome.
+
+lv_result = lo_palindrome->is_palindrome( p_string ).
+
+IF lv_result = abap_true.
+  WRITE: 'The input:', p_string, 'is a palindrome.'.
+ELSE.
+  WRITE: 'The input:', p_string, 'is not a palindrome.'.
+ENDIF.
