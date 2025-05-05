@@ -1,0 +1,14 @@
+CLASS zcl_palindrome DEFINITION.
+  PUBLIC SECTION.
+    METHODS is_palindrome IMPORTING iv_string TYPE string RETURNING VALUE(rv_result) TYPE abap_bool.
+ENDCLASS.
+
+CLASS zcl_palindrome IMPLEMENTATION.
+  METHOD is_palindrome.
+    IF iv_string = reverse( iv_string ).
+      rv_result = abap_true.
+    ELSE.
+      rv_result = abap_false.
+    ENDIF.
+  ENDMETHOD.
+ENDCLASS.
