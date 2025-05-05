@@ -1,0 +1,21 @@
+* calculates the factorial of a given number using a WHILE loop
+
+REPORT z_factorial_while.
+
+DATA: lv_number TYPE i,
+      lv_factorial TYPE i VALUE 1,
+      lv_counter TYPE i.
+
+PARAMETERS p_number TYPE i.
+
+START-OF-SELECTION.
+
+lv_number = p_number.
+lv_counter = lv_number.
+
+WHILE lv_counter > 1.
+  lv_factorial = lv_factorial * lv_counter.
+  lv_counter = lv_counter - 1.
+ENDWHILE.
+
+WRITE: 'Factorial of', lv_number, 'is', lv_factorial.
