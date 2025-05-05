@@ -1,0 +1,19 @@
+* prints each letter of a given string on a new line
+
+REPORT z_print_letters.
+
+DATA: lv_string TYPE string,
+      lv_char TYPE char1,
+      lv_index TYPE i.
+
+PARAMETERS p_string TYPE string.
+
+START-OF-SELECTION.
+
+lv_string = p_string.
+
+DO STRLEN( lv_string ) TIMES.
+  lv_char = lv_string+lv_index(1).
+  WRITE: / lv_char.
+  lv_index = lv_index + 1.
+ENDDO.
