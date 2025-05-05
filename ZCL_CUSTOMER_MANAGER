@@ -1,0 +1,57 @@
+CLASS zcl_customer_manager DEFINITION.
+  PUBLIC SECTION.
+    METHODS set_customer IMPORTING iv_cust_id TYPE char10 iv_name TYPE string iv_phone TYPE char15.
+    METHODS get_customer IMPORTING iv_cust_id TYPE char10 RETURNING VALUE(rv_customer_data) TYPE z_customer.
+    METHODS update_customer IMPORTING iv_cust_id TYPE char10 iv_name TYPE string iv_phone TYPE char15.
+    METHODS delete_customer IMPORTING iv_cust_id TYPE char10.
+ENDCLASS.
+
+CLASS zcl_customer_manager IMPLEMENTATION.
+
+  METHOD set_customer.
+    DATA ls_customer TYPE z_customer.
+    
+    ls_customer-cust_id = iv_cust_id.
+    ls_customer-name = iv_name.
+    ls_customer-phone = iv_phone.
+    
+    INSERT INTO z_customer VALUES ls_customer.
+    
+    IF sy-subrc = 0.
+      WRITE: 'Customer created successfully.'.
+    ELSE.
+      WRITE: 'Error: Unable to create customer record!'.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD get_customer.
+    SELECT SINGLE * FROM z_customer WHERE cust_id = iv_cust_id INTO rv_customer_data.
+    
+    IF sy-subrc = 0.
+      WRITE: 'Customer Retrieved:', rv_customer_data-name, rv_customer_data-phone.
+    ELSE.
+      WRITE: 'Customer not found!'.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD update_customer.
+    UPDATE z_customer SET name = iv_name, phone = iv_phone WHERE cust_id = iv_cust_id.
+    
+    IF sy-subrc = 0.
+      WRITE: 'Customer updated successfully.'.
+    ELSE.
+      WRITE: 'Error: Customer record not found or update failed!'.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD delete_customer.
+    DELETE FROM z_customer WHERE cust_id = iv_cust_id.
+    
+    IF sy-subrc = 0.
+      WRITE: 'Customer deleted successfully.'.
+    ELSE.
+      WRITE: 'Error: Customer record not found or deletion failed!'.
+    ENDIF.
+  ENDMETHOD.
+
+ENDCLASS.
